@@ -12,7 +12,6 @@ function TinderCards() {
         async function fetchData(){
             const req = await axios.get("/tinder/card/");
             setPeople(req.data);
-            console.log(req.data);
         }
         fetchData();
     },[])
