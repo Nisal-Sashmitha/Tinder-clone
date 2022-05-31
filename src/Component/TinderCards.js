@@ -1,21 +1,21 @@
 import { SwipeDown } from '@mui/icons-material';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TinderCard from 'react-tinder-card';
-import '../CSS/TinderCards.css'
+import '../CSS/TinderCards.css';
+import axios from './../axios';
 
 function TinderCards() {
-    const [people, setPeople] = useState([
-        {
-            name:"Elon Musk",
-            url:"https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTc5OTk2ODUyMTMxNzM0ODcy/gettyimages-1229892983-square.jpg"
-        },
-        {
-            name:"Jeff Bezos",
-            url:"https://cdn.britannica.com/56/199056-050-CCC44482/Jeff-Bezos-2017.jpg"
-        
+    const [people, setPeople] = useState([]);
 
+
+    useEffect(()=>{
+        async function fetchData(){
+            const req = await axios.get("/tinder/card/");
+            setPeople(req.data);
+            console.log(req.data);
         }
-    ]);
+        fetchData();
+    },[])
     const swiped = (direction, nameToDelete) =>{
         console.log("removing:"+nameToDelete);
         //setLastDirection(direction);
@@ -39,7 +39,7 @@ function TinderCards() {
                     preventSwipe={['up', 'down']}
                 >
                     <div className='card'
-                        style={{backgroundImage: `url(${person.url})`}}
+                        style={{backgroundImage: `url(${person.imgUrl})`}}
                     >
                         <h3>{person.name}</h3>
                     </div>
